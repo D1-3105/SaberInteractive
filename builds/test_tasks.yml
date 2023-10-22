@@ -1,0 +1,8 @@
+tasks:
+  - name: build_teal_leprechauns
+    dependencies: [ ]
+  - name: bring_maroon_golems
+    dependencies:
+      - build_black_golems
+  - name: build_black_golems
+    dependencies: [ ]

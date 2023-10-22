@@ -1,0 +1,5 @@
+builds:
+  - name: reach_wind
+    tasks:
+    - build_teal_leprechauns
+    - bring_maroon_golems
