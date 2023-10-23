@@ -4,7 +4,7 @@ from core.configs.config import STORAGES
 
 class TaskStack:
     """
-        Just interface for list
+        Interface for list
     """
     _stack: list
 
@@ -12,14 +12,17 @@ class TaskStack:
         self._stack = []
 
     def push(self, task):
-        if task not in self._stack:
+        if task not in self._stack:  # declare dependency once!
             self._stack.append(task)
 
-    def to_list(self):
+    def to_list(self) -> list:
+        """
+            LIFO
+        """
         return self._stack[::-1]
 
     @property
-    def length(self):
+    def length(self) -> int:
         return len(self._stack)
 
 
@@ -28,7 +31,7 @@ class TraversalBuild:
     def __init__(self, build: Build):
         self.build = build
 
-    def traversal_build_tasks(self):
+    def traversal_build_tasks(self) -> list:
         full_task_list = []
         for task in self.build.dependencies:
             current_task_stack = TaskStack()
@@ -37,7 +40,8 @@ class TraversalBuild:
         return full_task_list
 
     def traversal_task(self, stack: TaskStack, task_name):
+        #  dependencies should be in order they've declared
         stack.push(task_name)
-        dependencies = STORAGES['tasks'].get_dependencies(task_name)
+        dependencies = list(STORAGES['tasks'].get_dependencies(task_name))[::-1]
         for task in dependencies:
             self.traversal_task(stack, task)
