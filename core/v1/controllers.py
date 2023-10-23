@@ -1,3 +1,5 @@
+from typing import Annotated
+
 from fastapi import Body, HTTPException
 
 from core.BL.traversal import TraversalBuild
@@ -6,7 +8,7 @@ from core.v1.schemas import BuildInputSchema
 
 
 async def make_builds(
-        post_params: BuildInputSchema = Body(BuildInputSchema)
+        post_params: Annotated[BuildInputSchema, Body()]
 ) -> list[str]:
     build_instance = STORAGES['builds'].get_build(post_params.build)
     if not build_instance:
